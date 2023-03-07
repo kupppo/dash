@@ -20,6 +20,8 @@
   },
   "homepage": "https://dashrando.github.io/index.html",
   "devDependencies": {
+    "chalk": "^5.2.0",
+    "pkg": "^5.8.0",
     "uglify-js": "^3.17.4"
   },
   "dependencies": {

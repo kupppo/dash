@@ -4,15 +4,33 @@ import { Command } from 'commander'
 import vm from 'node:vm'
 import fs from 'node:fs'
 import crypto from 'node:crypto'
+import chalk from 'chalk'
+
+function readPackage() {
+  const packageJson = fs.readFileSync('./package.json')
+  return JSON.parse(packageJson)
+}
+
+function Header(version) {
+  console.log(`${DASHLogo()}  ${chalk.gray('>')}  ${version}`)
+}
+
+function DASHLogo() {
+  return (
+    `${chalk.rgb(13, 186, 73)('D')} ${chalk.rgb(13, 146, 73)('A')} ${chalk.rgb(13, 116, 73)('S')} ${chalk.rgb(13, 96, 73)('H')}`
+  )
+}
 
 async function main() {
+  const pkg = readPackage()
+  Header(pkg.version)
   const program = new Command()
   program
     .name('dash')
     .option('-v, --vanilla <path>', 'path to vanilla ROM')
     .option('-p, --preset <preset>', 'preset to use')
     .addHelpCommand()
-    .addHelpText('afterAll', `\n`)
+    .addHelpText('after', '\n')
 
   program.parse(process.argv)
 
@@ -20,7 +38,10 @@ async function main() {
 }
 
 main()
-  .then((code) => process.exit(code))
+  .then((code) => {
+    console.log('\n')
+    process.exit(code)
+  })
   .catch((err) => {
     console.error(err)
     process.exit(1)
