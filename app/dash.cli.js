@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander'
-import vm from 'node:vm'
-import fs from 'node:fs'
-import crypto from 'node:crypto'
-import chalk from 'chalk'
+const { Command } = require('commander')
+const vm =  require('node:vm')
+const fs =  require('node:fs')
+const crypto =  require('node:crypto')
+const chalk =  require('chalk')
 
 function readPackage() {
   const packageJson = fs.readFileSync('./package.json')
@@ -26,7 +26,7 @@ async function main() {
   Header(pkg.version)
   const program = new Command()
   program
-    .name('dash')
+    .name('dash-rando')
     .option('-v, --vanilla <path>', 'path to vanilla ROM')
     .option('-p, --preset <preset>', 'preset to use')
     .addHelpCommand()
