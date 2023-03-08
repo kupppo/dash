@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build:app": "npx uglify-js --compress -- ../scripts/dotnet-random.js ../scripts/locations.js ../scripts/items.js ../scripts/loadout.js ../scripts/logic.js ../scripts/itemPlacement.js ../scripts/modeStandard.js ../scripts/modeRecall.js ../scripts/bps-patch.js ../scripts/ips-patch.js ../scripts/sm-rando.js > dash.min.js",
-    "cli:build": "pkg dash.cli.js --out-path dash-rando --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
+    "cli:build": "pkg dash.cli.js --out-path executables --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
     "cli:start": "node dash.cli.js"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "uglify-js": "^3.17.4"
   },
   "dependencies": {
-    "commander": "^10.0.0"
+    "commander": "^10.0.0",
+    "node-fetch": "^2.6.9"
   }
 }

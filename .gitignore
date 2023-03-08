@@ -7,3 +7,5 @@ level/
 viewer/
 
 node_modules/
+app/executables/**
+!**/.gitkeep
