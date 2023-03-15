@@ -7,5 +7,9 @@ level/
 viewer/
 
 node_modules/
-app/executables/**
+
 !**/.gitkeep
+.vercel
+
+public/app/dash.min.js
+cli/executables/**
