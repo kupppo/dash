@@ -9,6 +9,7 @@ const chalk =  require('chalk')
 const path = require('node:path')
 const prompts = require('prompts')
 const fetch = require('node-fetch')
+const commands = require('./commands')
 
 const MODES = [
   {
@@ -239,6 +240,8 @@ const createProgram = () => {
   program
     .name('dash-rando')
     .version(pkg.version)
+    .addCommand(commands.config())
+    .addCommand(commands.seed(), { isDefault: true })
     .option('-d, --debug', 'output extra debugging information')
     .option('-s, --script <PATH>', 'path to script')
     .option('-v, --vanillaPath <path>', 'path to vanilla ROM')
@@ -285,6 +288,11 @@ async function main() {
 
   // Load vanilla
   if (!VANILLA) {
+    if (!options.vanillaPath) {
+      console.error(chalk.red('No vanilla ROM path specified.'))
+      console.log('\n')
+      process.exit(1)
+    }
     verifyAndSetVanilla(fs.readFileSync(options.vanillaPath))
   }
 
