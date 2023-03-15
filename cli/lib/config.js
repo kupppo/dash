@@ -115,7 +115,9 @@ const setupConfig = async () => {
     return createConfig()
   }
 
-  throw Error('Skipping config creation.')
+  console.log(chalk.gray('Skipping config creation.'))
+  console.log('')
+  process.exit(0)
   
 }
 

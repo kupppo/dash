@@ -2,15 +2,11 @@
 
 const { Command } = require('commander')
 const os = require('node:os')
-const vm =  require('node:vm')
 const fs =  require('node:fs')
 const crypto =  require('node:crypto')
 const chalk =  require('chalk')
 const path = require('node:path')
-const prompts = require('prompts')
-const fetch = require('node-fetch')
 const commands = require('./commands')
-const { createConfig } = require('./lib/config')
 
 // const OPTIONS = [
 //   {
@@ -30,7 +26,6 @@ const { createConfig } = require('./lib/config')
 // const DEFAULTS = {
 //   preset: MODES[3].value,
 //   debug: false,
-//   script: 'https://dashrando.github.io/app/dash.min.js',
 // }
 
 let VANILLA = null
@@ -42,17 +37,6 @@ const HASHES = {
 const debug = (message) => {
   console.log('\n')
   console.log(chalk.bgMagenta.bold(` debug `), message)
-}
-
-const onPromptState = (state) => {
-  if (state.aborted) {
-    // If we don't re-enable the terminal cursor before exiting
-    // the program, the cursor will remain hidden
-    process.stdout.write('\x1B[?25h')
-    process.stdout.write('\n')
-    console.log('\n')
-    process.exit(1)
-  }
 }
 
 function readPackage() {
@@ -86,24 +70,6 @@ function loadConfig(configPath) {
   }
 }
 
-// async function setupConfig(configPath, defaults) {
-//   const response = await prompts({
-//     type: 'toggle',
-//     name: 'value',
-//     message: 'No config file found. Would you like to create one?',
-//     initial: true,
-//     onState: onPromptState,
-//     active: 'yes',
-//     inactive: 'no',
-//   })
-
-//   if (response.value) {
-//     return createConfig(configPath, defaults)
-//   }
-
-//   console.log(chalk.gray('Skipping config creation.'))
-// }
-
 const verifyVanillaPath = (vanillaPath) => {
   try {
     const data = fs.readFileSync(vanillaPath)
@@ -129,48 +95,6 @@ const verifyAndSetVanilla = (data) => {
   return false
 }
 
-async function generatePatch(url, preset) {
-  const baseUrl = new URL(url).origin
-  const core = await fetch(url)
-  const coreText = await core.text()
-  const script = new vm.Script(coreText)
-  script.runInThisContext()
-
-  const [basePatchUrl, seedPatch, fileName] = generateFromPreset(preset)
-  const patchUrl = new URL(basePatchUrl, baseUrl)
-  // const patch = await fetch(patchUrl.href)
-  // const patchBuffer = await patch.arrayBuffer()
-
-  //  .then((res) => res.text())
-  //  .then((text) => {
-  //     const script = new vm.Script(text)
-  //     script.runInThisContext()
-
-  //     const [basePatchUrl, seedPatch, fileName] = generateFromPreset(preset)
-  //     console.log(basePatchUrl, seedPatch, fileName)
-
-  //     if (!basePatchUrl || !seedPatch || !fileName) {
-  //       throw Error(`Failed to generate preset: ${preset}`)
-  //     }
-
-      // fetch(baseUrl + basePatchUrl)
-      //    .then((res) => res.arrayBuffer())
-      //    .then((buffer) => {
-      //       const rom = patchRom(
-      //          VANILLA,
-      //          new BpsPatch(new Uint8Array(buffer)),
-      //          seedPatch
-      //       );
-      //       fs.writeFileSync(fileName, rom);
-      //       console.log("Generated: " + fileName);
-      //    });
-  //  })
-  //  .catch((err) => {
-  //     console.error(err);
-  //     process.exit(1);
-  //  });
-}
-
 const createProgram = () => {
   const pkg = readPackage()
   Header(pkg.version)
@@ -181,7 +105,6 @@ const createProgram = () => {
     .addCommand(commands.config())
     .addCommand(commands.seed(), { isDefault: true })
     .option('-d, --debug', 'output extra debugging information')
-    .option('-s, --script <PATH>', 'path to script')
     .option('-v, --vanillaPath <path>', 'path to vanilla ROM')
     .option('-p, --preset <preset>', 'preset to use')
     .addHelpCommand()
@@ -235,8 +158,6 @@ async function main() {
     }
     verifyAndSetVanilla(fs.readFileSync(options.vanillaPath))
   }
-
-  const patch = await generatePatch(options.script, options.preset)
 
   // Generate Patch
   // - If vanilla file exists, patch and save file
