@@ -146,13 +146,10 @@ async function createConfig(configPath, defaults) {
   ])
   
   const vanillaPath =
-    path.normalize(
-      configData.vanillaPath
-      .trim()
-      .replace('~/', `${os.homedir()}/`)
-      .split('\\ ')
-      .join(' ')
-    )
+    configData.vanillaPath
+    .trim()
+    .replace('~/', `${os.homedir()}/`)
+    .replace(/\\/g, '')
   const validVanilla = verifyVanillaPath(vanillaPath)
   if (!validVanilla) {
     console.error(chalk.red('Invalid vanilla ROM path.'))

@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build:app": "npx uglify-js --compress -- ../scripts/dotnet-random.js ../scripts/locations.js ../scripts/items.js ../scripts/loadout.js ../scripts/logic.js ../scripts/itemPlacement.js ../scripts/modeStandard.js ../scripts/modeRecall.js ../scripts/bps-patch.js ../scripts/ips-patch.js ../scripts/sm-rando.js > dash.min.js",
-    "cli:build": "pkg dash.cli.js --out-path executables --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
-    "cli:start": "node dash.cli.js"
+    "cli:build": "pkg index.js --out-path executables --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
+    "cli:start": "node index.js"
   },
   "repository": {
     "type": "git",
