@@ -258,33 +258,3 @@ main()
     console.error(err)
     process.exit(1)
   })
-
-//-----------------------------------------------------------------
-// Generate a seed from the specified preset.
-//-----------------------------------------------------------------
-
-// fetch(baseUrl + "app/dash.min.js")
-//    .then((res) => res.text())
-//    .then((text) => {
-//       const script = new vm.Script(text);
-//       script.runInThisContext();
-
-//       const [basePatchUrl, seedPatch, fileName] = generateFromPreset(preset);
-
-//       if (!basePatchUrl || !seedPatch || !fileName) {
-//          console.log("Failed to generate preset:", preset);
-//          return 1;
-//       }
-
-//       fetch(baseUrl + basePatchUrl)
-//          .then((res) => res.arrayBuffer())
-//          .then((buffer) => {
-//             const rom = patchRom(
-//                vanillaRom,
-//                new BpsPatch(new Uint8Array(buffer)),
-//                seedPatch
-//             );
-//             fs.writeFileSync(fileName, rom);
-//             console.log("Generated: " + fileName);
-//          });
-//    });
