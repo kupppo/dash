@@ -11,7 +11,8 @@ const configCommand = () => {
         const data = await readConfig()
         // TODO: syntax highlighting
         console.log('')
-        console.log(chalk.gray(configPath()))
+        console.log(chalk.white.bold('Config:'), chalk.gray(configPath()))
+        console.log('')
         console.log(data)
       } catch (err) {
         try {
