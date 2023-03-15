@@ -10,25 +10,7 @@ const path = require('node:path')
 const prompts = require('prompts')
 const fetch = require('node-fetch')
 const commands = require('./commands')
-
-const MODES = [
-  {
-    value: 'std_mm',
-    title: 'Standard - Major / Minor',
-  },
-  {
-    value: 'std_full',
-    title: 'Standard - Full',
-  },
-  {
-    value: 'recall_mm',
-    title: 'Recall - Major / Minor',
-  },
-  {
-    value: 'recall_full',
-    title: 'Recall - Full',
-  },
-]
+const { createConfig } = require('./lib/config')
 
 // const OPTIONS = [
 //   {
@@ -45,11 +27,11 @@ const MODES = [
 //   }
 // ]
 
-const DEFAULTS = {
-  preset: MODES[3].value,
-  debug: false,
-  script: 'https://dashrando.github.io/app/dash.min.js',
-}
+// const DEFAULTS = {
+//   preset: MODES[3].value,
+//   debug: false,
+//   script: 'https://dashrando.github.io/app/dash.min.js',
+// }
 
 let VANILLA = null
 const HASHES = {
@@ -104,67 +86,23 @@ function loadConfig(configPath) {
   }
 }
 
-async function setupConfig(configPath, defaults) {
-  const response = await prompts({
-    type: 'toggle',
-    name: 'value',
-    message: 'No config file found. Would you like to create one?',
-    initial: true,
-    onState: onPromptState,
-    active: 'yes',
-    inactive: 'no',
-  })
+// async function setupConfig(configPath, defaults) {
+//   const response = await prompts({
+//     type: 'toggle',
+//     name: 'value',
+//     message: 'No config file found. Would you like to create one?',
+//     initial: true,
+//     onState: onPromptState,
+//     active: 'yes',
+//     inactive: 'no',
+//   })
 
-  if (response.value) {
-    return createConfig(configPath, defaults)
-  }
+//   if (response.value) {
+//     return createConfig(configPath, defaults)
+//   }
 
-  console.log(chalk.gray('Skipping config creation.'))
-}
-
-async function createConfig(configPath, defaults) {
-  let initialPreset = MODES.findIndex((mode) => mode.value === defaults.preset)
-  if (initialPreset === -1) {
-    initialPreset = 0
-  }
-  const configData = await prompts([
-    {
-      type: 'select',
-      name: 'preset',
-      message: 'Default preset to use',
-      onState: onPromptState,
-      initial: initialPreset,
-      choices: MODES
-    },
-    {
-      type: 'text',
-      name: 'vanillaPath',
-      message: 'Path to vanilla ROM',
-      initial: defaults.vanillaPath,
-      onState: onPromptState,
-      // TODO: Autocomplete in prompt for folders / files
-    },
-  ])
-  
-  const vanillaPath =
-    configData.vanillaPath
-    .trim()
-    .replace('~/', `${os.homedir()}/`)
-    .replace(/\\/g, '')
-  const validVanilla = verifyVanillaPath(vanillaPath)
-  if (!validVanilla) {
-    console.error(chalk.red('Invalid vanilla ROM path.'))
-    console.log('\n')
-    process.exit(1)
-  }
-  configData.vanillaPath = vanillaPath
-  try {
-    fs.writeFileSync(configPath, JSON.stringify(configData, null, 2))
-    console.log(`${chalk.green('✔')} ${chalk.bold.white('Created config file at')} ${chalk.cyan(configPath)}`)
-  } catch (err) {
-    console.log(`${chalk.red('Could not create config file')} ${chalk.gray('Please try again.')}`)
-  }
-}
+//   console.log(chalk.gray('Skipping config creation.'))
+// }
 
 const verifyVanillaPath = (vanillaPath) => {
   try {
@@ -256,7 +194,9 @@ const createProgram = () => {
 async function main() {
   const program = createProgram()
 
-  program.parse(process.argv)
+  await program.parseAsync(process.argv)
+
+  return true
 
   // Load options from config + opts
   const cliOpts = program.opts()
