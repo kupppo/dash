@@ -8,26 +8,6 @@ const chalk =  require('chalk')
 const path = require('node:path')
 const commands = require('./commands')
 
-// const OPTIONS = [
-//   {
-//     name: 'vanillaPath',
-//     required: false,
-//     type: 'string',
-//     description: 'Path to vanilla ROM',
-//   },
-//   {
-//     name: 'preset',
-//     required: true,
-//     type: 'string',
-//     description: 'Shortname for preset to use',
-//   }
-// ]
-
-// const DEFAULTS = {
-//   preset: MODES[3].value,
-//   debug: false,
-// }
-
 let VANILLA = null
 const HASHES = {
   unheadered: '12b77c4bc9c1832cee8881244659065ee1d84c70c3d29e6eaf92e6798cc2ca72',
@@ -105,8 +85,6 @@ const createProgram = () => {
     .addCommand(commands.config())
     .addCommand(commands.seed(), { isDefault: true })
     .option('-d, --debug', 'output extra debugging information')
-    .option('-v, --vanillaPath <path>', 'path to vanilla ROM')
-    .option('-p, --preset <preset>', 'preset to use')
     .addHelpCommand()
     .addHelpText('after', '\n')
     .showHelpAfterError()
