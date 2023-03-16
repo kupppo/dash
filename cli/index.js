@@ -83,6 +83,8 @@ const createProgram = () => {
     .name('dash-rando')
     .version(pkg.version)
     .addCommand(commands.config())
+    .addCommand(commands.discord())
+    .addCommand(commands.github())
     .addCommand(commands.seed(), { isDefault: true })
     .option('-d, --debug', 'output extra debugging information')
     .addHelpCommand()
