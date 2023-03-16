@@ -5,10 +5,10 @@ const fs =  require('node:fs')
 const chalk =  require('chalk')
 const commands = require('./commands')
 
-const debug = (message) => {
-  console.log('\n')
-  console.log(chalk.bgMagenta.bold(` debug `), message)
-}
+// const debug = (message) => {
+//   console.log('\n')
+//   console.log(chalk.bgMagenta.bold(` debug `), message)
+// }
 
 function readPackage() {
   const packageJson = fs.readFileSync('./package.json')
@@ -75,32 +75,6 @@ const createProgram = () => {
 async function main() {
   const program = createProgram()
   await program.parseAsync(process.argv)
-
-  return true
-
-  // Validate options
-  // NOTE: All required options should have a default value so this should never happen
-  // const requiredOptions = OPTIONS.filter((option) => option.required)
-  // const missingOptions = requiredOptions.filter((option) => !options[option.name])
-
-  // Load vanilla
-  // if (!VANILLA) {
-  //   if (!options.vanillaPath) {
-  //     console.error(chalk.red('No vanilla ROM path specified.'))
-  //     console.log('\n')
-  //     process.exit(1)
-  //   }
-  //   verifyAndSetVanilla(fs.readFileSync(options.vanillaPath))
-  // }
-
-  // Generate Patch
-  // - If vanilla file exists, patch and save file
-  // - If vanilla file does not exist, save patch file and give instructions
-
-  // TODO: Commands
-  // config: for modifying or viewing your config
-  // patch: for applying an existing patch
-
   return 0
 }
 
