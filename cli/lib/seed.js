@@ -33,7 +33,11 @@ const validateOptions = (options={}) => {
       console.error(`${chalk.red.bold('Error')}: No preset provided.`)
       throw Error('No preset provided.')
     }
-    // TODO: validate preset
+    const validPreset = modes.find(mode => mode.value === preset)
+    if (!validPreset) {
+      console.error(`${chalk.red.bold('Error')}: Invalid preset provided.`)
+      throw Error('Invalid preset provided.')
+    }
 
     if (!seed) {
       console.error(`${chalk.red.bold('Error')}: No seed provided.`)
@@ -51,7 +55,7 @@ const validateOptions = (options={}) => {
       throw Error('No vanilla path provided.')
     }
     // TODO: validate vanillaPath
-    
+
   } catch(_err) {
     console.log('')
     return process.exit(1)
