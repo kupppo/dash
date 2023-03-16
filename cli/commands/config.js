@@ -34,7 +34,17 @@ const configCommand = () => {
     .aliases(['delete', 'clear'])
     .option('-f, --force', 'Skip confirmation', false)
     .action(async (options) => {
-      await removeConfig(options.force)
+      const filePath = configPath()
+      try {
+        await removeConfig(options.force)
+        console.log(`Cleared config from ${chalk.cyan(filePath)}`)
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          console.log(`No config file found at ${chalk.cyan(filePath)}`)
+        } else {
+          console.error(`${chalk.red('Error removing config file at')} ${chalk.cyan(filePath)}`)
+        }
+      }
     })
   // program
   //   .command('set')

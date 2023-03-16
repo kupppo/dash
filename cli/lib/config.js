@@ -98,10 +98,9 @@ const removeConfig = async (force) => {
   }
   const filePath = configPath()
   await fs.unlink(filePath)
-  console.log(`Cleared config from ${chalk.cyan(filePath)}`)
 }
 
-const setupConfig = async () => {
+const setupConfig = async (defaults={}) => {
   const response = await prompts({
     type: 'toggle',
     name: 'value',
@@ -113,7 +112,7 @@ const setupConfig = async () => {
   })
 
   if (response.value) {
-    return createConfig()
+    return createConfig(defaults)
   }
 
   console.log(chalk.gray('Skipping config creation.'))
