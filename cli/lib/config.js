@@ -47,6 +47,7 @@ const createConfig = async (defaults = {}) => {
   try {
     await fs.writeFile(dest, JSON.stringify(configData, null, 2))
     console.log(`${chalk.green('✔')} ${chalk.bold.white('Created config file at')} ${chalk.cyan(dest)}`)
+    return configData
   } catch (err) {
     console.log('config save err', err)
     console.log(`${chalk.red('Could not create config file')} ${chalk.gray('Please try again.')}`)

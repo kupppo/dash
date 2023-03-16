@@ -90,7 +90,6 @@ const createProgram = () => {
 
 async function main() {
   const program = createProgram()
-
   await program.parseAsync(process.argv)
 
   return true
