@@ -2,6 +2,7 @@ const commander = require('commander')
 
 const seedCommand = () => {
   const program = new commander.Command('seed')
+  program.description('Generate a new seed')
   program
     .command('generate', { isDefault: true })
     .description('Generate a new seed')

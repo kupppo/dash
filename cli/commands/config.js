@@ -4,6 +4,7 @@ const chalk = require('chalk')
 
 const configCommand = () => {
   const program = new commander.Command('config')
+  program.description('Manage config file')
   program
     .command('get', { isDefault: true })
     .action(async () => {
