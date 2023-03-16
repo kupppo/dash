@@ -1,35 +1,12 @@
-const game_modes = [
-   {
-      name: "mm",
-      prefix: "DASH_v11r_SM_",
-      patch: "patches/dash_std.bps",
-      mask: 0x11,
-      title: "Standard - Major / Minor",
-   },
-   {
-      name: "full",
-      prefix: "DASH_v11r_SF_",
-      patch: "patches/dash_std.bps",
-      mask: 0x21,
-      title: "Standard - Full",
-   },
-   {
-      name: "rm",
-      prefix: "DASH_v11r_RM_",
-      patch: "patches/dash_working.bps",
-      mask: 0x12,
-      title: "Recall - Major / Minor",
-   },
-   {
-      name: "rf",
-      prefix: "DASH_v11r_RF_",
-      patch: "patches/dash_working.bps",
-      mask: 0x22,
-      title: "Recall - Full",
-   },
-];
+import DotNetRandom from "./dotnet-random";
+import game_modes from '../data/modes';
+import ModeStandard from './modes/modeStandard';
+import ModeRecall from './modes/modeRecall';
+import { Area, AreaCounts, getLocations } from './locations';
+import { getMajorMinorPrePool, isValidMajorMinor } from './itemPlacement';
+import { Item } from './items';
 
-const generateSeedPatch = (seed, gameMode, nodes, options) => {
+export const generateSeedPatch = (seed, gameMode, nodes, options) => {
    //-----------------------------------------------------------------
    // Utility functions.
    //-----------------------------------------------------------------
@@ -139,7 +116,7 @@ const generateSeedPatch = (seed, gameMode, nodes, options) => {
    return seedPatch;
 };
 
-const getFileName = (seed, prefix, options) => {
+export const getFileName = (seed, prefix, options) => {
    let fileName = prefix + seed.toString().padStart(6, "0");
 
    if (options != null) {
@@ -151,7 +128,7 @@ const getFileName = (seed, prefix, options) => {
    return fileName + ".sfc";
 };
 
-const patchRom = (vanillaRom, basePatch, seedPatch) => {
+export const patchRom = (vanillaRom, basePatch, seedPatch) => {
    let rom = basePatch.Apply(vanillaRom);
 
    seedPatch.forEach((p) => {

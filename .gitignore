@@ -11,5 +11,8 @@ node_modules/
 !**/.gitkeep
 .vercel
 
-public/app/dash.min.js
 cli/executables/**
+
+# public/app/dash.min.js
+public/*.bundled.js
+public/*.bundled.js.map
