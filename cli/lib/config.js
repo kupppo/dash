@@ -8,6 +8,7 @@ const chalk = require('chalk')
 const configPath = () => path.join(os.homedir(), '.dash-rando.json')
 
 const createConfig = async (defaults = {}) => {
+  console.log('defaults', defaults)
   let initialPreset = modes.findIndex((mode) => mode.value === defaults.preset)
   if (initialPreset === -1) {
     initialPreset = 0
@@ -54,7 +55,7 @@ const createConfig = async (defaults = {}) => {
   }
 }
 
-const loadConfigData = async (configPath) => {
+const loadConfig = async () => {
   try {
     const filePath = configPath()
     const contents = await fs.readFile(filePath, 'utf-8')
@@ -101,6 +102,7 @@ const removeConfig = async (force) => {
 }
 
 const setupConfig = async (defaults={}) => {
+  console.log('setupConfig defaults', defaults)
   const response = await prompts({
     type: 'toggle',
     name: 'value',
@@ -124,7 +126,7 @@ const setupConfig = async (defaults={}) => {
 module.exports = {
   configPath,
   createConfig,
-  loadConfigData,
+  loadConfig,
   readConfig,
   removeConfig,
   setupConfig,

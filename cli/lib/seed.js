@@ -1,25 +1,64 @@
+const chalk = require('chalk')
 const { modes } = require('../data')
-const { readConfig, setupConfig } = require('./config')
+const { loadConfig, setupConfig } = require('./config')
 
 const DEFAULTS = {
-  mode: modes.find(mode => mode.value === 'recall_mm').value,
+  preset: modes.find(mode => mode.value === 'recall_mm').value,
 }
 
-const getOptions = async (input) => {
-  const preOpts = { ...DEFAULTS, ...input }
+const randomNumber = () => Math.floor(Math.random() * 999999) + 1
+
+const getOptions = async (input={}) => {
+  if (input.seed) {
+    input.seed = parseInt(input.seed)
+  } else {
+    input.seed = randomNumber()
+  }
+  const options = { ...DEFAULTS, ...input }
   try {
-    const config = await readConfig()
-    console.log('config', config)
+    const config = await loadConfig()
+    return { ...config, ...options }
   } catch (err) {
     if (err.code === 'ENOENT') {
-      const data = await setupConfig()
-      console.log('created config', data)
-      return
+      const config = await setupConfig(input)
+      return { ...config, ...options }
     }
   }
-  // check for config
+}
+
+const validateOptions = (options={}) => {
+  try {
+    const { preset, seed, vanillaPath } = options
+    if (!preset) {
+      console.error(`${chalk.red.bold('Error')}: No preset provided.`)
+      throw Error('No preset provided.')
+    }
+    // TODO: validate preset
+
+    if (!seed) {
+      console.error(`${chalk.red.bold('Error')}: No seed provided.`)
+      throw Error('No seed provided.')
+    }
+
+    const seedOutOfRange = seed < 1 || seed > 999999
+    if (seedOutOfRange) {
+      console.error(`${chalk.red.bold('Error')}: Seed must be between 1 and 999999.`)
+      throw Error('Seed out of range.')
+    }
+
+    if (!vanillaPath) {
+      console.error(`${chalk.red.bold('Error')}: No vanilla file provided.`)
+      throw Error('No vanilla path provided.')
+    }
+    // TODO: validate vanillaPath
+    
+  } catch(_err) {
+    console.log('')
+    return process.exit(1)
+  }
 }
 
 module.exports = {
   getOptions,
+  validateOptions,
 }

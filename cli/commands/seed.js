@@ -1,4 +1,5 @@
 const commander = require('commander')
+const { getOptions, validateOptions } = require('../lib/seed')
 
 const seedCommand = () => {
   const program = new commander.Command('seed')
@@ -10,12 +11,11 @@ const seedCommand = () => {
     // TODO: call this mode over preset?
     .option('-p, --preset [preset]', 'preset to use')
     .option('-v, --vanillaPath [path]', 'path to vanilla ROM')
-    .action((options) => {
-      console.log('generate seed opts', options)
-      // Get options + defaults
-      // Get config
-      //   - If no config, ask to create one (with options + defaults)
-      // Options = config + options + defaults
+    .option('-s, --seed [number]', 'seed number to use')
+    .action(async (flags) => {
+      const options = await getOptions(flags)
+      validateOptions(options)
+      console.log('it passed')
       // Validate options
       // Roll seed
       // Save seed to file

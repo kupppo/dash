@@ -25,22 +25,6 @@ function DASHLogo() {
   )
 }
 
-// function loadConfigData(configPath) {
-//   try {
-//     return JSON.parse(fs.readFileSync(configPath))
-//   } catch (err) {
-//     return {}
-//   }
-// }
-
-// function loadConfig(configPath) {
-//   const configExists = fs.existsSync(configPath)
-//   return {
-//     data: loadConfigData(configPath),
-//     exists: configExists,
-//   }
-// }
-
 // const verifyVanillaPath = (vanillaPath) => {
 //   try {
 //     const data = fs.readFileSync(vanillaPath)
@@ -93,29 +77,6 @@ async function main() {
   await program.parseAsync(process.argv)
 
   return true
-
-  // Load options from config + opts
-  const cliOpts = program.opts()
-  const opts = { ...DEFAULTS, ...cliOpts }
-  if (opts.debug) {
-    debug('Options from CLI')
-    console.table(opts)
-  }
-  
-  // const configPath = path.join(os.homedir(), '.dash-rando.json')
-  // const loadedConfig = loadConfig(configPath)
-  // let config = loadedConfig.data
-  
-  // If no config exists, ask to create one
-  // if (!loadedConfig.exists) {
-  //   config = await setupConfig(configPath, opts)
-  // }
-
-  const options = { ...config, ...opts }
-  if (options.debug) {
-    debug('Options after config')
-    console.table(options)
-  }
 
   // Validate options
   // NOTE: All required options should have a default value so this should never happen
