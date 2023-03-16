@@ -1,13 +1,16 @@
 {
-  "name": "@dashrando/core",
+  "name": "@dashrando/cli",
   "version": "1.0.0",
   "description": "The core logic for the DASH Randomizer. Used for racetime.gg races.",
-  "main": "dash.cli.js",
+  "main": "index.js",
+  "bin": {
+    "dashrando": "index.js"
+  },
   "engines": {
     "node": "18.x"
   },
   "scripts": {
-    "build": "pkg index.js --out-path executables --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
+    "build": "pkg . --out-path executables --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
     "start": "node index.js"
   },
   "repository": {

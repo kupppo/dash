@@ -102,7 +102,6 @@ const removeConfig = async (force) => {
 }
 
 const setupConfig = async (defaults={}) => {
-  console.log('setupConfig defaults', defaults)
   const response = await prompts({
     type: 'toggle',
     name: 'value',
