@@ -25,6 +25,7 @@ import { fetchSignature } from 'core'
 import { useEffect, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import Spacer from '../components/spacer'
+import { toast } from 'sonner'
 
 const Sidebar = ({
   name = null,
@@ -303,10 +304,8 @@ export default function Form() {
   const seedNum = watch('seed-mode')
   const isRandom = (seedNum === 'random')
 
-  const onSubmit = async (data: GenerateFormParams) => {
-    try {
-      console.log("submit", data);
-      const config = { vanillaBytes: vanilla };
+  const rollSeed = async (data: any) => {
+    const config = { vanillaBytes: vanilla };
 
       const getSeed = () => {
         if (data['seed-mode'] == 'fixed') {
@@ -428,8 +427,35 @@ export default function Form() {
       );
       downloadFile(seed, name)
       setRolledSeed({ seed, name, hash })
-    } catch (error) {
+  }
+
+  const onSubmit = async (data: GenerateFormParams) => {
+    try {
+      console.log('rolling seed')
+      await rollSeed(data)
+    } catch (err: unknown) {
+      const error = err as Error
       console.error('SEED ERROR', error)
+      console.log(data)
+      
+      const isFixed = data['seed-mode'] === 'fixed'
+      if (isFixed) {
+        // Display error message via toast
+        toast.error(
+          <>
+            <span style={{ color: 'red', fontWeight: '600', }}>Error</span>
+            {'  '}
+            {`Could not roll seed ${data['seed']}`}
+          </>, {
+          style: {
+            backgroundColor: '#000',
+          }
+        })
+        return
+      }
+
+      // Try again
+      await rollSeed(data)
     }
   };
   const seedMode = watch('seed-mode')
