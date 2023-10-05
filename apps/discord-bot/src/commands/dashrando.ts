@@ -1,21 +1,57 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Message } from 'discord.js'
+import { program } from 'commander'
 
-const generateUrl = ({ mode = 'recall_mm' }: { mode: string }) => {
+export type SeedOptions = {
+  preset: string
+  number?: number
+}
+
+export type BotInputOptions = {
+  preset: string
+  repeat: number
+}
+
+const MODES = [
+  { name: 'Standard Major/Minor', value: 'sm' },
+  { name: 'Standard Full', value: 'sf' },
+  { name: 'Recall Major/Minor', value: 'rm' },
+  { name: 'Recall Full', value: 'rf' },
+]
+
+const generateUrls = ({ preset = 'rf', repeat = 1 }) => {
+  const urls = []
+  for (let i = 0; i < repeat; i++) {
+    urls.push(generateUrl({ preset }))
+  }
+  return urls
+}
+
+const generateUrl = ({ preset = 'rf' }: { preset: string }) => {
   const seedNum = Math.floor(Math.random() * 999999) + 1
   const url = new URL('https://dashrando.net/seed')
-  url.searchParams.append('mode', mode)
+  url.searchParams.append('mode', preset)
   url.searchParams.append('seed', seedNum.toString())
   return url.toString()
 }
 
 function parseCommandInput(input: string) {
-  const regex = /mode=(\w+)/;
-  const matches = regex.exec(input);
-  if (matches !== null && matches.length >= 2) {
-      return { mode: matches[1] };
-  } else {
-      return null;
+  const userInput = input.replace('!dashrando ', '').trim()
+  program.requiredOption('-p --preset <mode>', 'logic mode to use', 'rm');
+  program.option('-r --repeat <number>', 'number of times to repeat the seed', '1');
+  program.parse(userInput.split(' '), { from: 'user' });
+  const opts = program.opts()
+
+  const validMode = MODES.find((mode) => mode.value === opts.preset)
+  if (!validMode) {
+    const validModes = MODES.map((mode) => `\`${mode.value}\``)
+    throw new Error(`Invalid mode: ${opts.preset}. Please use one of the following: ${validModes.join(', ')}`)
   }
+  const repeat = parseInt(opts.repeat) || 1
+  if (repeat > 30) {
+    throw new Error('You can only roll up to 30 seeds at once')
+  }
+  opts.repeat = repeat
+  return opts;
 }
 
 export const slashCommand = {
@@ -24,26 +60,41 @@ export const slashCommand = {
 		.setDescription('Roll a DASH seed')
 		.addStringOption((option) => (
 			option
-        .setName('mode')
+        .setName('preset')
         .setDescription('The logic mode used in rolling the seed')
-        .addChoices(
-          { name: 'Standard Major/Minor', value: 'mm' },
-          { name: 'Standard Full', value: 'full' },
-          { name: 'Recall Major/Minor', value: 'rm' },
-          { name: 'Recall Full', value: 'rf' },
-        )
-		)),
+        .addChoices(...MODES)
+		))
+    .addNumberOption((option) => (
+      option
+        .setName('repeat')
+        .setDescription('How many seeds you want to roll at once')
+        .setMinValue(1)
+        .setMaxValue(30)
+        .setRequired(false)
+    )),
   async execute(interaction: ChatInputCommandInteraction) {
-    const mode = interaction.options.getString('mode') ?? 'recall_mm'
-    const seedUrl = generateUrl({ mode })
-    await interaction.reply(seedUrl)
+    try {
+      await interaction.reply('Generating seed...')
+      const preset = interaction.options.getString('preset') ?? 'rf'
+      const repeat = interaction.options.getNumber('repeat') ?? 1
+      const seedUrls = generateUrls({ preset, repeat })
+      await interaction.editReply(seedUrls.join('\n'))
+    } catch (err) {
+      console.error(err)
+    }
   },
 }
 
 export const prefixCommand = (message: Message) => {
-  const command = parseCommandInput(message.content)
-  if (command) {
-    const seedUrl = generateUrl(command)
-    message.reply(seedUrl)
+  try {
+    const options = parseCommandInput(message.content) as BotInputOptions
+    if (options.preset) {
+      const urls = generateUrls(options)
+      message.reply(urls.join('\n'))
+    }
+  } catch (err) {
+    const error = err as Error
+    const errorMsg = error.message || 'Could not generate seed'
+    message.reply(errorMsg)
   }
 }
