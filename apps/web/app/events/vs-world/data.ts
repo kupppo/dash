@@ -18,7 +18,12 @@ export const RACES = [
       handle: 'speedgaming',
     },
     time: START_TIME,
-    description: 'Chozo Bozo, Multitroid Chaos'
+    description: 'Chozo Bozo, Multitroid Chaos',
+    vod: {
+      url: 'https://www.twitch.tv/videos/2053309622',
+      start: 638,
+      end: 3674,
+    },
   },
   {
     id: 2,
@@ -31,7 +36,12 @@ export const RACES = [
       handle: 'speedgaming',
     },
     time: MATCH2_TIME,
-    description: 'Chozo, Area Randomization, Bosses Shifted, Multitroid'
+    description: 'Chozo, Area Randomization, Bosses Shifted, Multitroid',
+    vod: {
+      url: 'https://www.twitch.tv/videos/2053309622',
+      start: 3675,
+      end: 6751,
+    },
   },
   {
     id: 3,
@@ -44,6 +54,11 @@ export const RACES = [
       handle: 'speedgaming',
     },
     time: MATCH3_TIME,
-    description: 'Chozo, Area Randomization, Co-op'
+    description: 'Chozo, Area Randomization, Co-op',
+    vod: {
+      url: 'https://www.twitch.tv/videos/2053309622',
+      start: 6752,
+      end: null,
+    },
   },
 ]
