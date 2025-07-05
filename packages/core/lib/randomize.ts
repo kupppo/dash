@@ -2,7 +2,7 @@ import BpsPatch from "./bps-patch";
 import { getBasePatch, getFileName, generateSeedPatch } from "./sm-rando";
 import { generateSeed } from "./graph/fill";
 import { patchRom } from "../helpers/patcher";
-import { Options, Settings, ControlMappings } from "./params";
+import { Options, Settings } from "./params";
 import { Graph } from "./graph/init";
 import { encodeSeed } from "../helpers/encoder";
 
@@ -21,7 +21,7 @@ async function RandomizeRom(
   config: Config,
   race: boolean = false,
   permaGraph: Graph = [],
-  controlMappings?: ControlMappings
+  controlMappings?: any
 ) {
   if (!config.vanillaBytes) {
     throw Error("No vanilla ROM data found");

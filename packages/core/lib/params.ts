@@ -4,29 +4,6 @@ import { safeToBase64 } from "../helpers/converters";
 
 export const ENCODED_PARAMS_SIZE = 7;
 
-export const ControllerInput = ["A", "B", "X", "Y", "Select", "L", "R"] as const;
-export type ControllerInput = typeof ControllerInput[number];
-
-export enum ControllerButton {
-  A = "A",
-  B = "B",
-  X = "X",
-  Y = "Y",
-  Select = "Select",
-  L = "L",
-  R = "R",
-}
-
-export type ControlMappings = {
-  shot: ControllerInput;
-  jump: ControllerInput;
-  dash: ControllerInput;
-  itemSelect: ControllerInput;
-  itemCancel: ControllerInput;
-  angleUp: ControllerInput;
-  angleDown: ControllerInput;
-};
-
 export type Settings = {
   mapLayout: number;
   majorDistribution: number;
@@ -55,16 +32,6 @@ export type Params = {
 //-----------------------------------------------------------------
 // Parameter types
 //-----------------------------------------------------------------
-
-export const Button = {
-  A: 0,
-  B: 1,
-  X: 2,
-  Y: 3,
-  Select: 4,
-  L: 5,
-  R: 6,
-};
 
 export const MapLayout = {
   Standard: 1,

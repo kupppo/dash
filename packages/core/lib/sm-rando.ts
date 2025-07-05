@@ -10,8 +10,6 @@ import {
   Options,
   Params,
   Settings,
-  ControlMappings,
-  Button,
   paramsToBytes,
 } from "./params";
 
@@ -30,7 +28,7 @@ export const generateSeedPatch = (
   options: Options,
   race: boolean,
   key: string,
-  controlMappings?: ControlMappings
+  controlMappings?: any
 ): Patch => {
   //-----------------------------------------------------------------
   // Verify inputs.
@@ -222,16 +220,7 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
 
   if (controlMappings) {
-    const controlBytes = new Uint8Array([
-      Button[controlMappings.shot],
-      Button[controlMappings.jump],
-      Button[controlMappings.dash],
-      Button[controlMappings.itemSelect],
-      Button[controlMappings.itemCancel],
-      Button[controlMappings.angleUp],
-      Button[controlMappings.angleDown]
-    ]);
-    encodeBytes(seedPatch, TABLE_FLAGS.ControlMappings, controlBytes);
+    console.log('custom control mappings', controlMappings);
   }
 
   //-----------------------------------------------------------------

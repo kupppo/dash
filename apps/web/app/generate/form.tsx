@@ -2,7 +2,6 @@
 
 import { Heading } from '../components/text'
 import Select from '../components/select'
-import Numeric from '../components/numeric'
 import styles from './page.module.css'
 import { downloadFile } from '@/lib/downloads'
 import { cn, deepEqual } from '@/lib/utils'
@@ -11,11 +10,10 @@ import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import Badge from '../components/badge'
 import useMounted from '../hooks/useMounted'
-import { Item, RandomizeRom, ControllerButton, ControllerInput } from 'core'
+import { Item, RandomizeRom } from 'core'
 import {
   BeamMode,
   BossMode,
-  Button as GameButton,
   GravityHeatReduction,
   MajorDistributionMode,
   MapLayout,
@@ -161,16 +159,6 @@ export interface GenerateSeedSettings {
   'pressure-valve': 'none' | 'one' | 'two',
 }
 
-export interface ControllerSettings {
-  'controller-shot': ControllerInput,
-  'controller-jump': ControllerInput,
-  'controller-dash': ControllerInput,
-  'controller-item-select': ControllerInput,
-  'controller-item-cancel': ControllerInput,
-  'controller-angle-up': ControllerInput,
-  'controller-angle-down': ControllerInput,
-}
-
 export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
@@ -178,7 +166,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
   logic: 'standard' | 'relaxed',
 }
 
-export interface GenerateFormParams extends GenerateSeedParams, ControllerSettings {
+export interface GenerateFormParams extends GenerateSeedParams {
   mode:
     | "spring24"
     | "surprise-surprise"
@@ -291,10 +279,10 @@ const MODES = {
   }
 }
 
-const controllerOptions = ControllerInput.map(input => ({
-  label: input,
-  value: input
-}));
+// const controllerOptions = ControllerInput.map(input => ({
+//   label: input,
+//   value: input
+// }));
 
 const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
   const values = { ...input } as any
@@ -352,13 +340,6 @@ export default function Form() {
       'mode': 'sgl25',
       'boss': 'shifted',
       'seed-mode': 'random',
-      'controller-shot': 'X',
-      'controller-jump': 'A',
-      'controller-dash': 'B',
-      'controller-item-select': 'Select',
-      'controller-item-cancel': 'Y',
-      'controller-angle-up': 'R',
-      'controller-angle-down': 'L',
     }
   })
   const [rolledSeed, setRolledSeed] = useState<RolledSeed | null>(null)
@@ -436,16 +417,6 @@ export default function Form() {
         bossMode: BossMode.Vanilla,
       };
 
-      const controlMappings = {
-        shot: data['controller-shot'],
-        jump: data['controller-jump'],
-        dash: data['controller-dash'],
-        itemSelect: data['controller-item-select'],
-        itemCancel: data['controller-item-cancel'],
-        angleUp: data['controller-angle-up'],
-        angleDown: data['controller-angle-down'],
-      };
-
       if (data.mode == 'dash-classic') {
         config.presetName = "ClassicMM";
       } else if (data.mode == '2017') {
@@ -508,7 +479,6 @@ export default function Form() {
         config,
         false,
         [],
-        controlMappings
       );
       await saveSeedData(
         config.seedKey,
@@ -758,7 +728,7 @@ export default function Form() {
             </Option>
           </Section>
           <Section title="Controller Options">
-            <Option label="Shot" name="controller-shot">
+            {/* <Option label="Shot" name="controller-shot">
               <Select
                 options={controllerOptions}
                 name="controller-shot"
@@ -827,26 +797,9 @@ export default function Form() {
               <p>
                 Button mapping for the <strong>Angle Down</strong> action.
               </p>
-            </Option>
+            </Option> */}
           </Section>
           <Section title="Options">
-            {/*<Option label="Seed Mode" name="seed-mode">
-              <Select
-                options={[
-                  { label: 'Random', value: 'random' },
-                  { label: 'Fixed', value: 'fixed' },
-                ]}
-                name="seed-mode"
-                register={register}
-              />
-              {seedMode === 'fixed' && (
-                <Numeric minVal={1} maxVal={999999} defaultValue={1} name="seed" register={register} />
-              )}
-              <p>
-                <a href="/info/settings#seed-mode">Seed Mode</a>{' '}
-                controls how the random number generator is initialized.
-              </p>
-              </Option>*/}
             <Option label="Logic" name="logic">
               <Select
                 options={[
