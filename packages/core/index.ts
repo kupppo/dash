@@ -51,7 +51,8 @@ export {
 
 export { RandomizeRom, ProtectRom, BpsPatch };
 
-export type { Params, Options, Settings } from "./lib/params";
+export type { Params, Options, Settings, ControlMappings, ControllerInput as ControllerInputType } from "./lib/params";
+export { ControllerButton, ControllerInput } from "./lib/params";
 export type { Graph, Vertex, Edge } from "./lib/graph/init";
 export type { ItemLocation } from "./lib/graph/solver";
 export type { PlacedItem } from "./lib/graph/utils";

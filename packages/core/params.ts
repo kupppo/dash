@@ -6,6 +6,9 @@ import {
   BossMode,
   SuitMode,
   GravityHeatReduction,
+  Button,
+  ControllerButton,
+  ControllerInput,
 } from "./lib/params";
 
 export {
@@ -16,4 +19,7 @@ export {
   BossMode,
   SuitMode,
   GravityHeatReduction,
+  Button,
+  ControllerButton,
+  ControllerInput,
 };

@@ -11,10 +11,11 @@ import { useForm } from 'react-hook-form'
 import { Button } from '../components/button'
 import Badge from '../components/badge'
 import useMounted from '../hooks/useMounted'
-import { Item, RandomizeRom } from 'core'
+import { Item, RandomizeRom, ControllerButton, ControllerInput } from 'core'
 import {
   BeamMode,
   BossMode,
+  Button as GameButton,
   GravityHeatReduction,
   MajorDistributionMode,
   MapLayout,
@@ -160,6 +161,16 @@ export interface GenerateSeedSettings {
   'pressure-valve': 'none' | 'one' | 'two',
 }
 
+export interface ControllerSettings {
+  'controller-shot': ControllerInput,
+  'controller-jump': ControllerInput,
+  'controller-dash': ControllerInput,
+  'controller-item-select': ControllerInput,
+  'controller-item-cancel': ControllerInput,
+  'controller-angle-up': ControllerInput,
+  'controller-angle-down': ControllerInput,
+}
+
 export interface GenerateSeedParams extends GenerateSeedSettings {
   'seed-mode': 'random' | 'fixed',
   seed: number,
@@ -167,7 +178,7 @@ export interface GenerateSeedParams extends GenerateSeedSettings {
   logic: 'standard' | 'relaxed',
 }
 
-export interface GenerateFormParams extends GenerateSeedParams {
+export interface GenerateFormParams extends GenerateSeedParams, ControllerSettings {
   mode:
     | "spring24"
     | "surprise-surprise"
@@ -280,6 +291,11 @@ const MODES = {
   }
 }
 
+const controllerOptions = ControllerInput.map(input => ({
+  label: input,
+  value: input
+}));
+
 const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
   const values = { ...input } as any
   delete values.mode
@@ -336,6 +352,13 @@ export default function Form() {
       'mode': 'sgl25',
       'boss': 'shifted',
       'seed-mode': 'random',
+      'controller-shot': 'X',
+      'controller-jump': 'A',
+      'controller-dash': 'B',
+      'controller-item-select': 'Select',
+      'controller-item-cancel': 'Y',
+      'controller-angle-up': 'R',
+      'controller-angle-down': 'L',
     }
   })
   const [rolledSeed, setRolledSeed] = useState<RolledSeed | null>(null)
@@ -413,6 +436,16 @@ export default function Form() {
         bossMode: BossMode.Vanilla,
       };
 
+      const controlMappings = {
+        shot: data['controller-shot'],
+        jump: data['controller-jump'],
+        dash: data['controller-dash'],
+        itemSelect: data['controller-item-select'],
+        itemCancel: data['controller-item-cancel'],
+        angleUp: data['controller-angle-up'],
+        angleDown: data['controller-angle-down'],
+      };
+
       if (data.mode == 'dash-classic') {
         config.presetName = "ClassicMM";
       } else if (data.mode == '2017') {
@@ -472,7 +505,10 @@ export default function Form() {
         seedNumber,
         settings,
         options,
-        config
+        config,
+        false,
+        [],
+        controlMappings
       );
       await saveSeedData(
         config.seedKey,
@@ -718,6 +754,78 @@ export default function Form() {
               <p>
                 <a href="/info/settings#pressure-valve">Pressure Valve</a>{' '}
                 is a new item that works as a mini-Gravity.
+              </p>
+            </Option>
+          </Section>
+          <Section title="Controller Options">
+            <Option label="Shot" name="controller-shot">
+              <Select
+                options={controllerOptions}
+                name="controller-shot"
+                register={register}
+              />
+              <p>
+                Button mapping for the <strong>Shot</strong> action.
+              </p>
+            </Option>
+            <Option label="Jump" name="controller-jump">
+              <Select
+                options={controllerOptions}
+                name="controller-jump"
+                register={register}
+              />
+              <p>
+                Button mapping for the <strong>Jump</strong> action.
+              </p>
+            </Option>
+            <Option label="Dash" name="controller-dash">
+              <Select
+                options={controllerOptions}
+                name="controller-dash"
+                register={register}
+              />
+              <p>
+                Button mapping for the <strong>Dash</strong> action.
+              </p>
+            </Option>
+            <Option label="Item Select" name="controller-item-select">
+              <Select
+                options={controllerOptions}
+                name="controller-item-select"
+                register={register}
+              />
+              <p>
+                Button mapping for the <strong>Item Select</strong> action.
+              </p>
+            </Option>
+            <Option label="Item Cancel" name="controller-item-cancel">
+              <Select
+                options={controllerOptions}
+                name="controller-item-cancel"
+                register={register}
+              />
+              <p>
+                Button mapping for the <strong>Item Cancel</strong> action.
+              </p>
+            </Option>
+            <Option label="Angle Up" name="controller-angle-up">
+              <Select
+                options={controllerOptions}
+                name="controller-angle-up"
+                register={register}
+              />
+              <p>
+                Button mapping for the <strong>Angle Up</strong> action.
+              </p>
+            </Option>
+            <Option label="Angle Down" name="controller-angle-down">
+              <Select
+                options={controllerOptions}
+                name="controller-angle-down"
+                register={register}
+              />
+              <p>
+                Button mapping for the <strong>Angle Down</strong> action.
               </p>
             </Option>
           </Section>

@@ -10,6 +10,8 @@ import {
   Options,
   Params,
   Settings,
+  ControlMappings,
+  Button,
   paramsToBytes,
 } from "./params";
 
@@ -27,7 +29,8 @@ export const generateSeedPatch = (
   graph: Graph,
   options: Options,
   race: boolean,
-  key: string
+  key: string,
+  controlMappings?: ControlMappings
 ): Patch => {
   //-----------------------------------------------------------------
   // Verify inputs.
@@ -213,6 +216,23 @@ export const generateSeedPatch = (
     TABLE_FLAGS.GravityHeatDamage,
     U16toBytes(settings.gravityHeatReduction)
   );
+
+  //-----------------------------------------------------------------
+  // Control Mappings.
+  //-----------------------------------------------------------------
+
+  if (controlMappings) {
+    const controlBytes = new Uint8Array([
+      Button[controlMappings.shot],
+      Button[controlMappings.jump],
+      Button[controlMappings.dash],
+      Button[controlMappings.itemSelect],
+      Button[controlMappings.itemCancel],
+      Button[controlMappings.angleUp],
+      Button[controlMappings.angleDown]
+    ]);
+    encodeBytes(seedPatch, TABLE_FLAGS.ControlMappings, controlBytes);
+  }
 
   //-----------------------------------------------------------------
   // Encode boss and area edges.

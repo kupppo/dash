@@ -142,6 +142,9 @@ export const TABLE_FLAGS = {
   // LN Chozo Trigger: 0x0000 = Require Space Jump
   //                   0x0001 = Nothing Required
   LNChozoTrigger: 0x2F8B20,
+  // Control Mappings: 7 bytes (one byte per control)
+  // 0x00 = A, 0x01 = B, 0x02 = X, 0x03 = Y, 0x04 = Select, 0x05 = L, 0x06 = R
+  ControlMappings: 0x2F8B30,
 };
 
 export const PATCHES = {
