@@ -23,6 +23,7 @@ import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
 import { getNewSeedKey, saveSeedData } from '@/lib/seed-data'
 import ControllerForm from './controller-form'
+import GameOptionsForm from './game-options-form'
 import { Section, Option } from './form-elements'
 import { get } from 'idb-keyval'
 
@@ -713,6 +714,7 @@ export default function Form() {
             </Section>
           </form>
           <ControllerForm />
+          <GameOptionsForm />
         </div>
         <Sidebar
           name={rolledSeed?.name || null}

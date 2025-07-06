@@ -4,7 +4,6 @@ import { Section, Option } from "./form-elements";
 import Select from "../components/select";
 import {
   ControllerInputs,
-  ControllerMapping,
   ControllerInput,
 } from "core/params";
 import { useForm } from "react-hook-form";
@@ -231,25 +230,25 @@ export default function ControllerForm() {
             </div>
           )}
         </Option>
+        <Option>
+          <Button
+            type="button"
+            size="small"
+            variant="outline"
+            onClick={() => {
+              setValue("shot", defaultValues["shot"]);
+              setValue("jump", defaultValues["jump"]);
+              setValue("dash", defaultValues["dash"]);
+              setValue("itemSelect", defaultValues["itemSelect"]);
+              setValue("itemCancel", defaultValues["itemCancel"]);
+              setValue("angleUp", defaultValues["angleUp"]);
+              setValue("angleDown", defaultValues["angleDown"]);
+            }}
+          >
+            Reset buttons to default
+          </Button>
+        </Option>
       </Section>
-      <Option>
-        <Button
-          type="button"
-          size="small"
-          variant="outline"
-          onClick={() => {
-            setValue("shot", defaultValues["shot"]);
-            setValue("jump", defaultValues["jump"]);
-            setValue("dash", defaultValues["dash"]);
-            setValue("itemSelect", defaultValues["itemSelect"]);
-            setValue("itemCancel", defaultValues["itemCancel"]);
-            setValue("angleUp", defaultValues["angleUp"]);
-            setValue("angleDown", defaultValues["angleDown"]);
-          }}
-        >
-          Reset buttons to default
-        </Button>
-      </Option>
     </form>
   );
 }
