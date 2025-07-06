@@ -12,6 +12,7 @@ import { set } from "idb-keyval";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../components/button";
+import styles from './page.module.css'
 
 const controllerOptions = ControllerInputs.map((input) => ({
   label: input,
@@ -137,7 +138,7 @@ export default function ControllerForm() {
   }, [watchedValues]);
 
   return (
-    <form onSubmit={() => {}}>
+    <form onSubmit={() => {}} className={styles['secondary-form']}>
       <Section title="Controller Options">
         {/* Display global validation error for uniqueness */}
         {errors.root && (

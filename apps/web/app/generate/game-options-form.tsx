@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { set } from "idb-keyval";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import styles from './page.module.css';
 
 const defaultValues = {
   moonwalk: false,
@@ -52,7 +53,7 @@ export default function ControllerForm() {
   }, [watchedValues]);
 
   return (
-    <form onSubmit={() => {}}>
+    <form onSubmit={() => {}} className={styles['secondary-form']}>
       <Section title="Game Options">
         {/* Display global validation error for uniqueness */}
         {errors.root && (

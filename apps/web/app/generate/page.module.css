@@ -25,7 +25,8 @@
   margin-bottom: var(--spacer-8x);
 }
 
-.section + .section {
+.section + .section,
+.secondary-form .section {
   margin-top: var(--spacer-4x);
   padding-top: var(--spacer-8x);
   border-top: 1px solid #222;
