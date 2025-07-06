@@ -84,6 +84,11 @@
   color: #333;
 }
 
+.small {
+  font-size: 12px !important;
+  padding: var(--spacer-2x) var(--spacer-4x);
+}
+
 .medium {
   font-size: 16px;
 }

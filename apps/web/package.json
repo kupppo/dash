@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-tabs": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@sentry/nextjs": "^7.77.0",
@@ -44,7 +45,8 @@
     "react-transition-group": "^4.4.5",
     "sonner": "^1.1.0",
     "swr": "^2.1.5",
-    "typescript": "5.0.3"
+    "typescript": "5.0.3",
+    "zod": "^3.25.74"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
