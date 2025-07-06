@@ -221,21 +221,13 @@ export const generateSeedPatch = (
   //-----------------------------------------------------------------
 
   if (controlMappings) {
-    console.log('custom control mappings', controlMappings);
-    console.log('shot', getControllerValue(controlMappings.shot));
-    console.log('jump', getControllerValue(controlMappings.jump));
-    console.log('dash', getControllerValue(controlMappings.dash));
-    console.log('itemSelect', getControllerValue(controlMappings.itemSelect));
-    console.log('itemCancel', getControllerValue(controlMappings.itemCancel));
-    console.log('angleUp', getControllerValue(controlMappings.angleUp));
-    console.log('angleDown', getControllerValue(controlMappings.angleDown));
-    encodeBytes(seedPatch, ControllerMapping.Shot.pcAddress, U8toBytes(getControllerValue(controlMappings.shot)));
-    encodeBytes(seedPatch, ControllerMapping.Jump.pcAddress, U8toBytes(getControllerValue(controlMappings.jump)));
-    encodeBytes(seedPatch, ControllerMapping.Dash.pcAddress, U8toBytes(getControllerValue(controlMappings.dash)));
-    encodeBytes(seedPatch, ControllerMapping.ItemSelect.pcAddress, U8toBytes(getControllerValue(controlMappings.itemSelect)));
-    encodeBytes(seedPatch, ControllerMapping.ItemCancel.pcAddress, U8toBytes(getControllerValue(controlMappings.itemCancel)));
-    encodeBytes(seedPatch, ControllerMapping.AngleUp.pcAddress, U8toBytes(getControllerValue(controlMappings.angleUp)));
-    encodeBytes(seedPatch, ControllerMapping.AngleDown.pcAddress, U8toBytes(getControllerValue(controlMappings.angleDown)));
+    encodeBytes(seedPatch, ControllerMapping.Shot.pcAddress, U16toBytes(getControllerValue(controlMappings.shot)));
+    encodeBytes(seedPatch, ControllerMapping.Jump.pcAddress, U16toBytes(getControllerValue(controlMappings.jump)));
+    encodeBytes(seedPatch, ControllerMapping.Dash.pcAddress, U16toBytes(getControllerValue(controlMappings.dash)));
+    encodeBytes(seedPatch, ControllerMapping.ItemSelect.pcAddress, U16toBytes(getControllerValue(controlMappings.itemSelect)));
+    encodeBytes(seedPatch, ControllerMapping.ItemCancel.pcAddress, U16toBytes(getControllerValue(controlMappings.itemCancel)));
+    encodeBytes(seedPatch, ControllerMapping.AngleUp.pcAddress, U16toBytes(getControllerValue(controlMappings.angleUp)));
+    encodeBytes(seedPatch, ControllerMapping.AngleDown.pcAddress, U16toBytes(getControllerValue(controlMappings.angleDown)));
   }
 
   //-----------------------------------------------------------------
