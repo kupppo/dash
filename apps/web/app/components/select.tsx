@@ -21,7 +21,6 @@ const Select = ({
   register,
   required = false,
   disabled = false,
-
 }: SelectProps) => {
   return (
     <div className={styles.wrapper}>

@@ -18,7 +18,10 @@ import {
   MajorDistributionMode,
   MapLayout,
   MinorDistributionMode,
-  SuitMode
+  SuitMode,
+  ControllerInputs,
+  ControllerMapping,
+  ControllerInput,
 } from 'core/params'
 import { fetchSignature } from 'core'
 import { useCallback, useEffect, useState } from 'react'
@@ -157,6 +160,13 @@ export interface GenerateSeedSettings {
   'double-jump': 'off' | 'on',
   'heat-shield': 'off' | 'on',
   'pressure-valve': 'none' | 'one' | 'two',
+  'controller-shot': ControllerInput,
+  'controller-jump': ControllerInput,
+  'controller-dash': ControllerInput,
+  'controller-item-select': ControllerInput,
+  'controller-item-cancel': ControllerInput,
+  'controller-angle-up': ControllerInput,
+  'controller-angle-down': ControllerInput,
 }
 
 export interface GenerateSeedParams extends GenerateSeedSettings {
@@ -279,10 +289,10 @@ const MODES = {
   }
 }
 
-// const controllerOptions = ControllerInput.map(input => ({
-//   label: input,
-//   value: input
-// }));
+const controllerOptions = ControllerInputs.map(input => ({
+  label: input,
+  value: input
+}));
 
 const getModeFields = (input: GenerateFormParams): GenerateSeedSettings => {
   const values = { ...input } as any
@@ -340,6 +350,13 @@ export default function Form() {
       'mode': 'sgl25',
       'boss': 'shifted',
       'seed-mode': 'random',
+      'controller-shot': 'X',
+      'controller-jump': 'A',
+      'controller-dash': 'B',
+      'controller-item-select': 'Select',
+      'controller-item-cancel': 'Y',
+      'controller-angle-up': 'R',
+      'controller-angle-down': 'L',
     }
   })
   const [rolledSeed, setRolledSeed] = useState<RolledSeed | null>(null)
@@ -470,6 +487,16 @@ export default function Form() {
         options.RelaxedLogic = true;
       };
 
+      const controlMappings = {
+        shot: data['controller-shot'],
+        jump: data['controller-jump'],
+        dash: data['controller-dash'],
+        itemSelect: data['controller-item-select'],
+        itemCancel: data['controller-item-cancel'],
+        angleUp: data['controller-angle-up'],
+        angleDown: data['controller-angle-down'],
+      }
+
       const seedNumber = getSeed();
       config.seedKey = await getNewSeedKey()
       const { data: seed, hash } = await RandomizeRom(
@@ -479,6 +506,7 @@ export default function Form() {
         config,
         false,
         [],
+        controlMappings
       );
       await saveSeedData(
         config.seedKey,
@@ -727,78 +755,6 @@ export default function Form() {
               </p>
             </Option>
           </Section>
-          <Section title="Controller Options">
-            {/* <Option label="Shot" name="controller-shot">
-              <Select
-                options={controllerOptions}
-                name="controller-shot"
-                register={register}
-              />
-              <p>
-                Button mapping for the <strong>Shot</strong> action.
-              </p>
-            </Option>
-            <Option label="Jump" name="controller-jump">
-              <Select
-                options={controllerOptions}
-                name="controller-jump"
-                register={register}
-              />
-              <p>
-                Button mapping for the <strong>Jump</strong> action.
-              </p>
-            </Option>
-            <Option label="Dash" name="controller-dash">
-              <Select
-                options={controllerOptions}
-                name="controller-dash"
-                register={register}
-              />
-              <p>
-                Button mapping for the <strong>Dash</strong> action.
-              </p>
-            </Option>
-            <Option label="Item Select" name="controller-item-select">
-              <Select
-                options={controllerOptions}
-                name="controller-item-select"
-                register={register}
-              />
-              <p>
-                Button mapping for the <strong>Item Select</strong> action.
-              </p>
-            </Option>
-            <Option label="Item Cancel" name="controller-item-cancel">
-              <Select
-                options={controllerOptions}
-                name="controller-item-cancel"
-                register={register}
-              />
-              <p>
-                Button mapping for the <strong>Item Cancel</strong> action.
-              </p>
-            </Option>
-            <Option label="Angle Up" name="controller-angle-up">
-              <Select
-                options={controllerOptions}
-                name="controller-angle-up"
-                register={register}
-              />
-              <p>
-                Button mapping for the <strong>Angle Up</strong> action.
-              </p>
-            </Option>
-            <Option label="Angle Down" name="controller-angle-down">
-              <Select
-                options={controllerOptions}
-                name="controller-angle-down"
-                register={register}
-              />
-              <p>
-                Button mapping for the <strong>Angle Down</strong> action.
-              </p>
-            </Option> */}
-          </Section>
           <Section title="Options">
             <Option label="Logic" name="logic">
               <Select
@@ -827,6 +783,57 @@ export default function Form() {
                 <a href="/info/settings#fanfare">Item Fanfare</a>{' '}
                 is the music when an item is collected.
               </p>
+            </Option>
+          </Section>
+          <Section title="Controller Options">
+            <Option label="Shot">
+              <Select
+                options={controllerOptions}
+                name="controller-shot"
+                register={register}
+              />
+            </Option>
+            <Option label="Jump">
+              <Select
+                options={controllerOptions}
+                name="controller-jump"
+                register={register}
+              />
+            </Option>
+            <Option label="Dash">
+              <Select
+                options={controllerOptions}
+                name="controller-dash"
+                register={register}
+              />
+            </Option>
+            <Option label="Item Select">
+              <Select
+                options={controllerOptions}
+                name="controller-item-select"
+                register={register}
+              />
+            </Option>
+            <Option label="Item Cancel">
+              <Select
+                options={controllerOptions}
+                name="controller-item-cancel"
+                register={register}
+              />
+            </Option>
+            <Option label="Angle Up">
+              <Select
+                options={controllerOptions}
+                name="controller-angle-up"
+                register={register}
+              />
+            </Option>
+            <Option label="Angle Down">
+              <Select
+                options={controllerOptions}
+                name="controller-angle-down"
+                register={register}
+              />
             </Option>
           </Section>
         </div>

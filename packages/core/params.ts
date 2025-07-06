@@ -17,3 +17,6 @@ export {
   SuitMode,
   GravityHeatReduction,
 };
+
+export { ControllerMapping, ControllerInputs } from "./lib/controller";
+export type { ControllerInput } from "./lib/controller";

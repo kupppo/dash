@@ -4,6 +4,7 @@ import { Item, ItemType } from "./items";
 import { Edge, Graph, computeCRC32, encodeSeed } from "..";
 import doors, { isAreaEdge, isBossEdge } from "../data/doors";
 import { DASH_CLASSIC_PATCHES, TABLE_FLAGS } from "../data/interface";
+import { ControllerMapping, getControllerValue } from "./controller";
 import {
   MajorDistributionMode,
   MapLayout,
@@ -221,6 +222,20 @@ export const generateSeedPatch = (
 
   if (controlMappings) {
     console.log('custom control mappings', controlMappings);
+    console.log('shot', getControllerValue(controlMappings.shot));
+    console.log('jump', getControllerValue(controlMappings.jump));
+    console.log('dash', getControllerValue(controlMappings.dash));
+    console.log('itemSelect', getControllerValue(controlMappings.itemSelect));
+    console.log('itemCancel', getControllerValue(controlMappings.itemCancel));
+    console.log('angleUp', getControllerValue(controlMappings.angleUp));
+    console.log('angleDown', getControllerValue(controlMappings.angleDown));
+    encodeBytes(seedPatch, ControllerMapping.Shot.pcAddress, U8toBytes(getControllerValue(controlMappings.shot)));
+    encodeBytes(seedPatch, ControllerMapping.Jump.pcAddress, U8toBytes(getControllerValue(controlMappings.jump)));
+    encodeBytes(seedPatch, ControllerMapping.Dash.pcAddress, U8toBytes(getControllerValue(controlMappings.dash)));
+    encodeBytes(seedPatch, ControllerMapping.ItemSelect.pcAddress, U8toBytes(getControllerValue(controlMappings.itemSelect)));
+    encodeBytes(seedPatch, ControllerMapping.ItemCancel.pcAddress, U8toBytes(getControllerValue(controlMappings.itemCancel)));
+    encodeBytes(seedPatch, ControllerMapping.AngleUp.pcAddress, U8toBytes(getControllerValue(controlMappings.angleUp)));
+    encodeBytes(seedPatch, ControllerMapping.AngleDown.pcAddress, U8toBytes(getControllerValue(controlMappings.angleDown)));
   }
 
   //-----------------------------------------------------------------
